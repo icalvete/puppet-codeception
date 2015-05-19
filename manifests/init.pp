@@ -1,5 +1,7 @@
 class codeception () inherits codeception::params {
 
+  include composer
+
   anchor {'codeception::begin':
     before => Class['codeception::install']
   }

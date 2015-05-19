@@ -19,15 +19,16 @@ class codeception::install {
   }
   
   exec{ 'codeception_install':
-    command  => 'composer.phar install --optimize-autoloader --no-dev',
-    user     => 'root',
-    cwd      => $codeception::install_dir,
-    provider => 'shell',
-    require  => File['codeception_install_dir', 'codeception_composer_json']
+    command     => "${composer::install_dir}/composer.phar install --optimize-autoloader --no-dev",
+    user        => 'root',
+    cwd         => $codeception::install_dir,
+    provider    => 'shell',
+    environment => ["COMPOSER_HOME=${composer::install_dir}"],
+    require     => File['codeception_install_dir', 'codeception_composer_json']
   }
   
   file { '/usr/local/bin/codecept':
     ensure => link,
-    target => "${composer::install_dir}/vendor/bin/codecept"
+    target => "${codeception::install_dir}/vendor/bin/codecept"
   }
 }
