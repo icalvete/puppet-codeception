@@ -1,5 +1,5 @@
 class codeception::install {
-  
+
   file { 'codeception_install_dir':
     ensure => directory,
     path   => $codeception::install_dir,
@@ -7,7 +7,7 @@ class codeception::install {
     group  => 'root',
     mode   => '0755',
   }
-  
+
   file { 'codeception_composer_json':
     ensure  => present,
     path    => "${codeception::install_dir}/composer.json",
@@ -17,7 +17,7 @@ class codeception::install {
     source  => "puppet:///modules/${module_name}/composer.json",
     require => File['codeception_install_dir']
   }
-  
+
   exec{ 'codeception_install':
     command     => "${composer::install_dir}/composer.phar install --optimize-autoloader --no-dev",
     user        => 'root',
@@ -26,7 +26,7 @@ class codeception::install {
     environment => ["COMPOSER_HOME=${composer::install_dir}"],
     require     => File['codeception_install_dir', 'codeception_composer_json']
   }
-  
+
   file { '/usr/local/bin/codecept':
     ensure => link,
     target => "${codeception::install_dir}/vendor/bin/codecept"
