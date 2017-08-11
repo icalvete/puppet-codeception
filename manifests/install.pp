@@ -19,7 +19,7 @@ class codeception::install {
   }
 
   exec{ 'codeception_install':
-    command     => "${composer::install_dir}/composer.phar install --optimize-autoloader --no-dev",
+    command     => "/usr/bin/php -d memory_limit=-1 ${composer::install_dir}/composer.phar install --optimize-autoloader --no-dev",
     user        => 'root',
     cwd         => $codeception::install_dir,
     provider    => 'shell',
